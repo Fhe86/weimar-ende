@@ -48,6 +48,22 @@ p.sub { font-size: clamp(14px, 1.35vw, 18px); color: var(--muted); text-align: c
 .photrow { display: flex; align-items: center; justify-content: center; gap: 24px; width: 100%; max-width: 1050px; }
 .photrow .chart { flex: 1 1 0; min-width: 0; max-width: none; }
 .mfaces { display: block; width: 100%; height: 100%; }
+/* Live-Wahl */
+.livebox { display: flex; align-items: center; justify-content: center; gap: 18px; flex-wrap: wrap; margin: 6px 0 4px; }
+.livecode { display: none; align-items: baseline; gap: 12px; background: #fff; border: 3px solid var(--lila); border-radius: 20px; padding: 8px 22px; box-shadow: var(--shadow); }
+.livecode.show { display: inline-flex; }
+.livecode small { font: 700 .72rem 'Sora', sans-serif; letter-spacing: 2px; text-transform: uppercase; color: var(--lila); }
+.livecode b { font: 800 clamp(34px, 5vw, 56px)/1 'Sora', sans-serif; letter-spacing: 6px; color: var(--lila-d); }
+.livemsg { font-size: .85rem; color: var(--muted); font-weight: 700; }
+.conn { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: var(--lila-l); border-radius: 16px; padding: 8px 14px; margin-top: 10px; }
+.conn label { font: 800 .8rem 'Sora', sans-serif; color: var(--lila-d); }
+.conn input { width: 96px; min-height: 44px; border: 2.5px solid var(--line); border-radius: 12px; text-align: center; font: 800 1.4rem 'Sora', sans-serif; letter-spacing: 4px; color: var(--lila-d); background: #fff; }
+.conn .st { font-size: .85rem; font-weight: 700; color: var(--muted); }
+.conn .st.ok { color: var(--gruen); } .conn .st.bad { color: var(--kor); }
+.liveinfo { display: none; width: 100%; max-width: 1000px; margin-bottom: 10px; background: #e8f6ee; border: 2.5px solid var(--gruen); border-radius: 16px; padding: 8px 16px; font-size: .92rem; line-height: 1.5; font-weight: 700; }
+.liveinfo.show { display: block; }
+.liveinfo .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--gruen); margin-right: 6px; animation: blink .9s ease infinite alternate; }
+.liveinfo .tk { font-weight: 600; color: var(--muted); }
 /* Ablauf */
 .plan { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; width: 100%; max-width: 1150px; margin-top: 6px; }
 .tile { background: #fff; border: 3px solid var(--line); border-radius: var(--rad); padding: 18px 14px; text-align: center; box-shadow: var(--shadow); }
@@ -193,6 +209,7 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
 .trow .nm { flex: 1; font: 800 .98rem 'Sora', sans-serif; }
 .trow button { width: 48px; height: 48px; border-radius: 12px; border: none; background: var(--lila); color: #fff; font: 800 1.5rem 'Sora', sans-serif; cursor: pointer; touch-action: manipulation; }
 .trow button.m { background: #cfc6e4; }
+.trow button:disabled { opacity: .3; }
 .trow .cn { min-width: 36px; text-align: center; font: 800 1.6rem 'Sora', sans-serif; }
 .cmp { background: #fff; border: 3px solid var(--line); border-radius: var(--rad); padding: 16px 18px; box-shadow: var(--shadow); }
 .cmp h3 { font-size: 1rem; font-weight: 800; margin-bottom: 8px; }
@@ -332,7 +349,7 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
   </section>
 
   <!-- 4 -->
-  <section class="slide" data-phase="2 Wähler 1932" data-min="2" data-copy="5" data-need="Euer iPad, zu zweit. Die Klasse scannt den QR-Code." data-notes="Auftrag (2 Min). QR-Code scannen (öffnet Folie 5) oder unten Link kopieren und in Classroom oder OneNote schicken. Der QR funktioniert erst nach der Veröffentlichung. Regeln in einem Satz: Ihr seid Wähler, ihr entscheidet für eure Figur, nicht für euch. Niemand spielt eine Partei oder einen Redner. Zu zweit, Figur ziehen. Timer erst nach dem Auftrag starten.">
+  <section class="slide" data-phase="2 Wähler 1932" data-min="2" data-copy="5" data-need="Euer iPad, zu zweit. Die Klasse scannt den QR-Code und tippt den Klassencode ein." data-notes="Auftrag (2 Min). Vorher auf Live-Wahl starten drücken, dann erscheint der vierstellige Klassencode, den die Schüler am iPad eintippen. Ohne Netz funktioniert die Wahl trotzdem, dann per Handzeichen auf Folie 6. QR-Code scannen (öffnet Folie 5) oder unten Link kopieren und in Classroom oder OneNote schicken. Der QR funktioniert erst nach der Veröffentlichung. Regeln in einem Satz: Ihr seid Wähler, ihr entscheidet für eure Figur, nicht für euch. Niemand spielt eine Partei oder einen Redner. Zu zweit, Figur ziehen. Timer erst nach dem Auftrag starten.">
     <div class="kicker">Euer Auftrag</div>
     <h2>Ihr seid Wähler im Jahr 1932</h2>
     <div class="steps" style="max-width:900px">
@@ -340,6 +357,7 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
       <div class="stepc"><div class="sn">2</div><h3>Stimmung eintragen</h3><p>1928, 1930, 1932: Wie geht es eurer Figur?</p></div>
       <div class="stepc"><div class="sn">3</div><h3>Wählen</h3><p>Lest die Flugblätter. Wem glaubt eure Figur?</p></div>
     </div>
+    <div class="livebox notprint"><button class="btn" id="liveStart" type="button">Live-Wahl starten</button><span class="livecode" id="liveCode"><small>Klassencode</small><b id="liveDigits"></b></span><span class="livemsg" id="liveMsg">Nur für dich: Die Schüler tippen den Code auf ihrem iPad ein, dann zählt es vorne live mit.</span></div>
     <div class="vqr"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfQAAAH0CAYAAADL1t+KAAAJa0lEQVR42u3d0ZHkRgxEQUBB/12GLJg9SQuu6nCZBkyQ6Oa8aP6wq2qKs2Zylre7T92Pue5fB9aH/+4vIwAAQQcABB0AEHQAQNABQNABAEEHAAQdABB0ABB0AEDQAQBBBwAEHQAEHQAQdABA0AGAD56NH5kZk3xBd7sO9/Mjz5+Z2Gv+63//feKEDgDllTsAIOgAgKADAIIOAIIOAAg6ACDoAICgA4CgAwCCDgAIOgAg6AAg6ACAoAMAgg4AfPDUsQ+8p5gZ9/LCGqfsk6T13ZjJxv1srY1n5zb/9U7oAICgA4CgAwCCDgAIOgAg6AAg6ACAoAMAgg4ACDoACDoAIOgAgKADAIIOAIIOAAg6APDzHiPgV7o75lpm5tT9JF1LwtqYCTihA4CgAwCCDgAIOgAg6ACAoAOAoAMAgg4ACDoAIOgAIOgAgKADAIIOAAg6AAg6ACDoAMC+xwj4lZmJuZbujrifjetIuxYy92vaM4gTOgAg6ACAoAOAoAMAgg4ACDoAIOgAIOgAgKADAIIOAAg6AAg6ACDoAICgAwCCDgCCDgAIOgDwP3hSLmRmrEao7rbGx/fr1hpbH6yNEzoAIOgAIOgAgKADAIIOAAg6ACDoACDoAICgAwCCDgAIOgAIOgAg6ACAoAMAgg4Agg4A5Hk2fqS7TZI/ytaen5mI+9m4jqSZbFzLtZn4r3dCBwAEHQAQdABA0AFA0AEAQQcABB0AEHQAEHQAQNABAEEHAAQdAAQdABB0AEDQAQBBB4A/V8/MGAP8ywene+V3Uh6/rfsxk9szwQkdABB0AEDQAUDQAQBBBwAEHQAQdAAQdABA0AEAQQcABB0ABB0AEHQAQNABAEEHAEEHAH5PT3ebwgtm5tu/YW1y12bLpTXemuvGTFLW+NpMktbGTJzQAaC8cgcABB0AEHQAQNABQNABAEEHAAQdABB0ABB0AEDQAQBBBwAEHQAEHQAQdABA0AEAQQeAP0lX1Xz3R2bGJFMXuLtS1jfpWqzx/lw3riNpja/tV/vk9jPshA4A5ZU7ACDoAICgAwCCDgCCDgAIOgAg6ACAoAOAoAMAgg4ACDoAIOgAIOgAgKADAIIOAHyhq2qMYd/MRHz0PuU6rs3V/bxzL0n7npeis7RfrbETOgAIOgAg6ACAoAMAgg4Agg4ACDoAIOgAgKADgKADAIIOAAg6ACDoACDoAICgAwCCDgD8cz2HvhLf3acW59DSnFufpLWx73PnunUvKWt8bd9v3E/SPnFCB4Dyyh0AEHQAQNABAEEHAEEHAAQdABB0AEDQAUDQAQBBBwAEHQAQdAAQdABA0AEAQQcAPnjKx+pjpcxk4zq2pNxP0kwurU3Svr/2f5Ly7CTN9dr9OKEDQHnlDgAIOgAg6ACAoAOAoAMAgg4ACDoAIOgAIOgAgKADAIIOAAg6AAg6ACDoAICgAwCCDgB3PRs/0t0m+cJMZubMdWxdy6W5btlan5SZXFsf/0m5++TS2jihA0B55Q4ACDoAIOgAgKADgKADAIIOAAg6ACDoACDoAICgAwCCDgAIOgAIOgAg6ACAoAMAX+iqivhKfMrH6rc+NJ8iZa5JszWT+3O9tr4bs73232bfO6EDQHnlDgAIOgAg6ACAoAOAoAMAgg4ACDoAIOgAIOgAgKADAIIOAAg6AAg6ACDoAICgAwD/2FMhH3jv7lMfmk+ZK9b4p2w8w/b9u7P17GSuzda9OKEDQHnlDgAIOgAg6ACAoAOAoAMAgg4ACDoAIOgAIOgAgKADAIIOAAg6AAg6ACDoAICgAwAfPBsfVk/6wPuV69ia67WZJF2LNX5nbS79n9j3nh0ndABA0AFA0AEAQQcABB0AEHQAEHQAQNABAEEHAAQdAAQdABB0AEDQAQBBBwAEHQAEHQAQdABgRVfVfPdHZibjZrrryr2YyXv3k+TSfru2Ntx/dlL+H7eeHSd0ACiv3AEAQQcABB0AEHQAEHQAQNABAEEHAAQdAAQdABB0AEDQAQBBBwBBBwAEHQAQdADgg6d88L7e+ND8JUkz2Vhj6+M5ttfs12t73gkdAMordwBA0AEAQQcABB0ABB0AEHQAQNABAEEHAEEHAAQdABB0AEDQAUDQAQBBBwAEHQD4wmMEdfqj990dcR1b13LpOrZmm7JPrj0716T8FyStzbX/WCd0ACiv3AEAQQcABB0AEHQAEHQAQNABAEEHAAQdAAQdABB0AEDQAQBBBwBBBwAEHQAQdADgg66qufKReN5Zm7XNtrDGKfdjv763Nin7xBrf32/X1tgJHQAEHQAQdABA0AEAQQcAQQcABB0AEHQAQNABQNABAEEHAAQdABB0ABB0AEDQAQBBBwAEHQAO65kZY+DLTdIdcy0b2/Xa/dgn9/eafYITOgAIOgAg6ACAoAMAgg4Agg4ACDoAIOgAgKADgKADAIIOAAg6ACDoACDoAICgAwCCDgB8x+Nj87fNjCEcn8m1Zzhlfa7NdeN+/J9kz8QJHQDKK3cAQNABAEEHAAQdAAQdABB0AEDQAQBBBwBBBwAEHQAQdABA0AFA0AEAQQcABB0A+OCpYx94v6S7I64jaX3NBOzZa/ez9b/mhA4A5ZU7ACDoAICgAwCCDgCCDgAIOgAg6ACAoAOAoAMAgg4ACDoAIOgAIOgAgKADAIIOAHzw1LEPvKeYmTP3cm1trs3k0l7bmu3GTDZ+Y2ufeAZv7zUndABA0AFA0AEAQQcABB0AEHQAEHQAQNABAEEHAAQdAAQdABB0AEDQAQBBBwBBBwAEHQAQdADglx4jAJLMzLd/o7sjrmPjN3hvjS9dhxM6AJRX7gCAoAMAgg4ACDoACDoAIOgAgKADAIIOAIIOAAg6ACDoAICgA4CgAwCCDgAIOgDwhccI+J3MTMR1dHfM/Wxdy5W1SVrjrZmkrDHZz44TOgCUV+4AgKADAIIOAAg6AAg6ACDoAICgAwCCDgCCDgAIOgAg6ACAoAOAoAMAgg4ACDoA8MFTxz7wzm3dbb+6nx+5n429lrJfL+6Tjdmm7BMndABA0AFA0AEAQQcABB0AEHQAEHQAQNABAEEHAAQdAAQdABB0AEDQAQBBBwBBBwAEHQB421MhH5rnvpkxhBeenY25XnuGU/batT2ftE9S9n3SGjuhA0B55Q4ACDoAIOgAgKADgKADAIIOAAg6ACDoACDoAICgAwCCDgAIOgAIOgAg6ACAoAMAgg4Ad/0Ne0UT6oE6+hAAAAAASUVORK5CYII=" alt="QR-Code zur Wähler-Folie"><span>Scannen: Wähler-Folie öffnet sich</span></div>
     <p class="sub" style="max-width:640px">Die Figuren sind erfunden, ihre Sorgen sind echt. Ihr entscheidet nicht, was <i>ihr</i> gut findet, sondern wie diese Person wählt. Es gibt kein Richtig oder Falsch.</p>
   </section>
@@ -351,6 +369,7 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
         <div><div class="kicker" style="margin-bottom:2px">Deutschland 1928 bis 1932</div><h2 style="text-align:left;margin:0;font-size:clamp(22px,3vw,34px)">Wem glaubt deine Figur?</h2></div>
         <div class="gtimer notprint"><div class="timer sm" data-seconds="780">13:00</div><div class="tbar" style="margin:0"><button class="btn" type="button" data-t="toggle">Start</button><button class="btn ghost" type="button" data-t="reset">13:00</button></div></div>
       </div>
+      <div class="conn notprint"><label for="codeIn">Klassencode (steht vorne):</label><input id="codeIn" type="text" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="0000"><span class="st" id="codeSt">Ohne Code zählt eure Wahl nur per Handzeichen.</span></div>
       <div class="onlyprint" style="margin-top:16px;font-size:1.05rem;line-height:1.6"><b>Interaktive Folie, nur am iPad.</b> Die acht Figuren mit ihren Ereignissen und Flugblättern stehen auf der Lehrerseite (Seite 2). Ohne iPad: Figur ziehen, Ereignisse vorlesen, mündlich wählen lassen.</div>
       <div class="notprint" id="gArea"></div>
       <p class="gfoot notprint">Alle Figuren sind erfunden, ihre Lage ist nach Berichten und Zahlen der Zeit gebaut. Die Flugblatt-Texte sind sinngemäß und vereinfacht, keine wörtlichen Zitate. Eingaben bleiben nur auf diesem Gerät.</p>
@@ -361,6 +380,7 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
   <section class="slide scroll" data-phase="2 Wähler 1932" data-min="3" data-need="Nichts. Hände heben, Lehrkraft zählt mit." data-notes="Klassenwahl (3 Min). Frage: Wer hat für seine Figur SPD gewählt? Hände heben, mit + zählen. So bei KPD, Zentrum, NSDAP, Nichtwähler. Die rechten Balken sind das echte Ergebnis vom 31. Juli 1932 (Anteile der gültigen Stimmen: NSDAP 37,3, SPD 21,6, KPD 14,3, Zentrum und BVP zusammen 15,6, DNVP 5,9, übrige 5,3). Wichtig sagen: Unsere Klasse ist nicht Deutschland, die Figuren sind ausgesucht. Spannender als der Vergleich: Wer ist umgekippt, wer nicht? Stabile Figuren (Schmidt, Meier) haben gelitten, aber nicht gewechselt: Bindung an Gewerkschaft, Kirche, Partei. Das ist ein Kern der Stunde. Danach Nichtwähler benennen: Die NSDAP gewann viele Nichtwähler.">
     <div class="kicker">Auswertung</div>
     <h2>Unsere Klassenwahl</h2>
+    <div class="liveinfo" id="liveInfo"></div>
     <div class="tally">
       <div id="tallyRows"></div>
       <div class="cmp">
@@ -511,6 +531,7 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
     prev.classList.toggle('disabled', cur === 0);
     next.classList.toggle('disabled', cur === total - 1);
     try { history.replaceState(null, '', '#' + (cur + 1)); } catch (e) {}
+    if (window.__onSlide) window.__onSlide(cur);
   }
   prev.addEventListener('click', function () { show(cur - 1); });
   next.addEventListener('click', function () { show(cur + 1); });
@@ -673,24 +694,73 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
       h += '<div style="text-align:center;margin-top:12px"><button class="btn ghost" id="gNew" type="button">Neue Karte ziehen</button></div>';
       area.innerHTML = h;
       [].forEach.call(area.querySelectorAll('.mood'), function (b) { b.addEventListener('click', function () { st.mood[+b.dataset.y] = +b.dataset.m; save(); render(); }); });
-      [].forEach.call(area.querySelectorAll('[data-pick]'), function (b) { b.addEventListener('click', function () { st.pick = b.dataset.pick; save(); render(); }); });
+      [].forEach.call(area.querySelectorAll('[data-pick]'), function (b) { b.addEventListener('click', function () { st.pick = b.dataset.pick; save(); render(); if (window.__sendVote) window.__sendVote(st.fig, st.pick, st.mood); }); });
       var why = document.getElementById('gWhy'); if (why) why.addEventListener('input', function () { st.why = why.value; save(); });
       document.getElementById('gNew').addEventListener('click', function () { st = { fig: null, mood: [0, 0, 0], pick: null, why: '' }; save(); render(); });
     }
     render();
   })();
 
+  /* Live-Wahl: Verbindung zum kleinen Zähl-Server (anonym, nur Figur und Partei) */
+  var API = 'https://weimar-wahl.fhe86.workers.dev/api/';
+  function rnd(n) { var a = new Uint8Array(n), s = ''; (window.crypto || window.msCrypto).getRandomValues(a); for (var i = 0; i < n; i++) s += 'abcdefghijkmnpqrstuvwxyz23456789'[a[i] % 32]; return s; }
+  function call(path, method, body) {
+    var ctl = window.AbortController ? new AbortController() : null, to = setTimeout(function () { if (ctl) ctl.abort(); }, 8000);
+    return fetch(API + path, { method: method, headers: { 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined, signal: ctl ? ctl.signal : undefined })
+      .then(function (r) { clearTimeout(to); return r.json().then(function (j) { return { status: r.status, j: j }; }); });
+  }
+  var live = { room: store('troom'), key: store('tkey') };
+  var liveBtn = document.getElementById('liveStart'), liveCode = document.getElementById('liveCode'), liveDigits = document.getElementById('liveDigits'), liveMsg = document.getElementById('liveMsg');
+  function showCode() { if (live.room) { liveDigits.textContent = live.room; liveCode.classList.add('show'); liveBtn.textContent = 'Neue Live-Wahl'; } }
+  showCode();
+  liveBtn.addEventListener('click', function () {
+    liveBtn.disabled = true; liveMsg.textContent = 'Verbinde ...';
+    var key = rnd(24), tries = 0;
+    (function attempt() {
+      var code = String(Math.floor(1000 + Math.random() * 9000));
+      call(code + '/open', 'POST', { key: key }).then(function (r) {
+        if (r.status === 200) { live = { room: code, key: key }; store('troom', code); store('tkey', key); showCode(); liveMsg.textContent = 'Läuft. Die Schüler tippen diesen Code in ihrem iPad ein.'; liveBtn.disabled = false; }
+        else if (r.status === 409 && tries++ < 6) attempt();
+        else { liveMsg.textContent = 'Das hat nicht geklappt. Wahl per Handzeichen auf Folie 6.'; liveBtn.disabled = false; }
+      }).catch(function () { liveMsg.textContent = 'Kein Netz zum Zählserver. Wahl per Handzeichen auf Folie 6.'; liveBtn.disabled = false; });
+    })();
+  });
+
+  /* Schüler: Code eingeben und Stimme abschicken */
+  var codeIn = document.getElementById('codeIn'), codeSt = document.getElementById('codeSt');
+  var myDev = store('dev') || rnd(16); store('dev', myDev);
+  var myCode = store('code') || '';
+  function stat(t, c) { codeSt.textContent = t; codeSt.className = 'st' + (c ? ' ' + c : ''); }
+  function checkCode() {
+    var c = codeIn.value.trim();
+    if (!/^[0-9]{4}$/.test(c)) { myCode = ''; store('code', ''); if (c) stat('Der Code hat vier Zahlen.', 'bad'); else stat('Ohne Code zählt eure Wahl nur per Handzeichen.'); return; }
+    stat('Prüfe ...');
+    call(c + '/state', 'GET').then(function (r) {
+      if (r.status === 200) { myCode = c; store('code', c); stat('Verbunden mit der Klasse ' + c + '. Eure Wahl zählt vorne mit.', 'ok'); }
+      else { myCode = ''; store('code', ''); stat('Diesen Code gibt es nicht. Schau noch mal nach vorne.', 'bad'); }
+    }).catch(function () { myCode = ''; stat('Kein Netz. Sagt eure Wahl bitte per Handzeichen.', 'bad'); });
+  }
+  codeIn.value = myCode; if (myCode) checkCode();
+  codeIn.addEventListener('input', function () { codeIn.value = codeIn.value.replace(/[^0-9]/g, ''); if (codeIn.value.length === 4 || codeIn.value.length === 0) checkCode(); });
+  window.__sendVote = function (fig, party, mood) {
+    if (!myCode) return;
+    var body = { dev: myDev, f: fig, p: party === 'nein' ? 'nein' : party, m: mood && mood.every(function (x) { return x > 0; }) ? mood : null };
+    call(myCode + '/vote', 'POST', body).then(function (r) { if (r.status === 200) stat('Stimme abgeschickt. Ihr könnt sie noch ändern.', 'ok'); else stat('Das Abschicken hat nicht geklappt. Sagt eure Wahl per Handzeichen.', 'bad'); }).catch(function () { stat('Kein Netz. Sagt eure Wahl bitte per Handzeichen.', 'bad'); });
+  };
+
   /* Strichliste und Vergleich */
   (function () {
     var OPT = [{ id: 'spd', n: 'SPD' }, { id: 'kpd', n: 'KPD' }, { id: 'zen', n: 'Zentrum' }, { id: 'nsdap', n: 'NSDAP' }, { id: 'nein', n: 'Nichtwähler' }];
     var REAL = [{ n: 'NSDAP', v: 37.3 }, { n: 'SPD', v: 21.6 }, { n: 'KPD', v: 14.3 }, { n: 'Zentrum, BVP', v: 15.6 }, { n: 'DNVP', v: 5.9 }, { n: 'übrige', v: 5.3 }];
-    var cnt = { spd: 0, kpd: 0, zen: 0, nsdap: 0, nein: 0 };
+    var cnt = { spd: 0, kpd: 0, zen: 0, nsdap: 0, nein: 0 }, isLive = false, pollIv = null;
+    var FN = { krause: 'Karl', schmidt: 'Willi', meier: 'Maria', berger: 'Frieda', jansen: 'Hinrich', lange: 'Gustav', neumann: 'Erika', brandt: 'Paul' }, PN = { zen: 'Zentrum', nsdap: 'NSDAP', spd: 'SPD', kpd: 'KPD', nein: 'Nichtwähler' };
+    var infoEl = document.getElementById('liveInfo');
     var rowsEl = document.getElementById('tallyRows'), clsEl = document.getElementById('clsBars'), realEl = document.getElementById('realBars');
     function f1(x) { return (Math.round(x * 10) / 10).toString().replace('.', ','); }
     function draw() {
       var voters = cnt.spd + cnt.kpd + cnt.zen + cnt.nsdap;
       var h = '';
-      OPT.forEach(function (o) { h += '<div class="trow"><span class="nm">' + o.n + '</span><button class="m notprint" type="button" data-id="' + o.id + '" data-d="-1" aria-label="weniger">−</button><span class="cn">' + cnt[o.id] + '</span><button class="notprint" type="button" data-id="' + o.id + '" data-d="1" aria-label="mehr">+</button></div>'; });
+      OPT.forEach(function (o) { h += '<div class="trow"><span class="nm">' + o.n + '</span><button class="m notprint" type="button" data-id="' + o.id + '" data-d="-1" aria-label="weniger"' + (isLive ? ' disabled' : '') + '>−</button><span class="cn">' + cnt[o.id] + '</span><button class="notprint" type="button" data-id="' + o.id + '" data-d="1" aria-label="mehr"' + (isLive ? ' disabled' : '') + '>+</button></div>'; });
       rowsEl.innerHTML = h;
       var c = '';
       OPT.slice(0, 4).forEach(function (o) { var p = voters ? cnt[o.id] / voters * 100 : 0; c += '<div class="hb"><span class="l">' + o.n + '</span><span class="t"><i style="width:' + p + '%"></i></span><span class="v">' + (voters ? f1(p) + ' %' : '–') + '</span></div>'; });
@@ -701,7 +771,25 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
       realEl.innerHTML = r;
       [].forEach.call(rowsEl.querySelectorAll('button'), function (b) { b.addEventListener('click', function () { cnt[b.dataset.id] = Math.max(0, cnt[b.dataset.id] + (+b.dataset.d)); draw(); }); });
     }
-    document.getElementById('tReset').addEventListener('click', function () { for (var k in cnt) cnt[k] = 0; draw(); });
+    function poll() {
+      if (!live.room) return;
+      call(live.room + '/state', 'GET').then(function (r) {
+        if (r.status === 404 && live.key) { call(live.room + '/open', 'POST', { key: live.key }); return; }
+        if (r.status !== 200) return;
+        var j = r.j; isLive = true;
+        for (var k in cnt) cnt[k] = j.byParty[k] || 0;
+        var h = '<span class="dot"></span>Live, Klasse ' + live.room + ': ' + j.n + (j.n === 1 ? ' Stimme' : ' Stimmen');
+        if (j.mood) h += ' · Stimmung im Schnitt (1 gut, 5 verzweifelt): 1928 ' + String(j.mood[0]).replace('.', ',') + ', 1930 ' + String(j.mood[1]).replace('.', ',') + ', 1932 ' + String(j.mood[2]).replace('.', ',');
+        if (j.recent && j.recent.length) h += '<div class="tk">Zuletzt: ' + j.recent.map(function (x) { return (FN[x.f] || x.f) + ' ' + (PN[x.p] || x.p); }).join(' · ') + '</div>';
+        infoEl.innerHTML = h; infoEl.classList.add('show'); draw();
+      }).catch(function () {});
+    }
+    window.__onSlide = function (i) { clearInterval(pollIv); pollIv = null; if (i === 5 && live.room) { poll(); pollIv = setInterval(poll, 3000); } };
+    document.getElementById('tReset').addEventListener('click', function () {
+      for (var k in cnt) cnt[k] = 0;
+      if (live.room && live.key) call(live.room + '/reset', 'POST', { key: live.key }).then(poll).catch(function () {});
+      draw();
+    });
     draw();
   })();
 
