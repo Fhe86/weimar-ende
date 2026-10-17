@@ -349,7 +349,7 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
   </section>
 
   <!-- 4 -->
-  <section class="slide" data-phase="2 Wähler 1932" data-min="2" data-copy="5" data-need="Euer iPad, zu zweit. Die Klasse scannt den QR-Code und tippt den Klassencode ein." data-notes="Auftrag (2 Min). Vorher auf Live-Wahl starten drücken, dann erscheint der vierstellige Klassencode, den die Schüler am iPad eintippen. Ohne Netz funktioniert die Wahl trotzdem, dann per Handzeichen auf Folie 6. QR-Code scannen (öffnet Folie 5) oder unten Link kopieren und in Classroom oder OneNote schicken. Der QR funktioniert erst nach der Veröffentlichung. Regeln in einem Satz: Ihr seid Wähler, ihr entscheidet für eure Figur, nicht für euch. Niemand spielt eine Partei oder einen Redner. Zu zweit, Figur ziehen. Timer erst nach dem Auftrag starten.">
+  <section class="slide" data-phase="2 Wähler 1932" data-min="2" data-copy="5" data-need="Euer iPad, zu zweit. Die Klasse scannt den QR-Code und tippt den Klassencode ein." data-notes="Auftrag (2 Min). Vorher auf Live-Wahl starten drücken, dann erscheint der sechsstellige Klassencode, den die Schüler am iPad eintippen. Ohne Netz funktioniert die Wahl trotzdem, dann per Handzeichen auf Folie 6. QR-Code scannen (öffnet Folie 5) oder unten Link kopieren und in Classroom oder OneNote schicken. Der QR funktioniert erst nach der Veröffentlichung. Regeln in einem Satz: Ihr seid Wähler, ihr entscheidet für eure Figur, nicht für euch. Niemand spielt eine Partei oder einen Redner. Zu zweit, Figur ziehen. Timer erst nach dem Auftrag starten.">
     <div class="kicker">Euer Auftrag</div>
     <h2>Ihr seid Wähler im Jahr 1932</h2>
     <div class="steps" style="max-width:900px">
@@ -369,7 +369,7 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
         <div><div class="kicker" style="margin-bottom:2px">Deutschland 1928 bis 1932</div><h2 style="text-align:left;margin:0;font-size:clamp(22px,3vw,34px)">Wem glaubt deine Figur?</h2></div>
         <div class="gtimer notprint"><div class="timer sm" data-seconds="780">13:00</div><div class="tbar" style="margin:0"><button class="btn" type="button" data-t="toggle">Start</button><button class="btn ghost" type="button" data-t="reset">13:00</button></div></div>
       </div>
-      <div class="conn notprint"><label for="codeIn">Klassencode (steht vorne):</label><input id="codeIn" type="text" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="0000"><span class="st" id="codeSt">Ohne Code zählt eure Wahl nur per Handzeichen.</span></div>
+      <div class="conn notprint"><label for="codeIn">Klassencode (steht vorne):</label><input id="codeIn" type="text" inputmode="numeric" maxlength="6" autocomplete="off" placeholder="000000"><span class="st" id="codeSt">Ohne Code zählt eure Wahl nur per Handzeichen.</span></div>
       <div class="onlyprint" style="margin-top:16px;font-size:1.05rem;line-height:1.6"><b>Interaktive Folie, nur am iPad.</b> Die acht Figuren mit ihren Ereignissen und Flugblättern stehen auf der Lehrerseite (Seite 2). Ohne iPad: Figur ziehen, Ereignisse vorlesen, mündlich wählen lassen.</div>
       <div class="notprint" id="gArea"></div>
       <p class="gfoot notprint">Alle Figuren sind erfunden, ihre Lage ist nach Berichten und Zahlen der Zeit gebaut. Die Flugblatt-Texte sind sinngemäß und vereinfacht, keine wörtlichen Zitate. Eingaben bleiben nur auf diesem Gerät.</p>
@@ -640,6 +640,8 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
     return '<svg class="mfaces" viewBox="0 0 36 36" aria-hidden="true"><circle cx="12.500" cy="16" r="2.200" fill="#2b2440"/><circle cx="23.500" cy="16" r="2.200" fill="#2b2440"/>' + brow + '<path d="' + mouth + '" stroke="#2b2440" stroke-width="2.200" fill="none" stroke-linecap="round"/>' + tear + '</svg>';
   }
 
+  function esc(t) { return String(t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+
   /* Spiel: Wähler-Figur */
   (function () {
     var area = document.getElementById('gArea');
@@ -688,7 +690,7 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
         h += '</div><button type="button" class="nowahl' + (st.pick === 'nein' ? ' on' : '') + '" data-pick="nein">Wir gehen gar nicht wählen</button></div>';
       }
       if (c && st.pick) {
-        h += '<div class="gstep"><h3><i>3</i>Warum? Schreibt einen Satz.</h3><textarea class="keep" id="gWhy" placeholder="Wir wählen ' + (st.pick === 'nein' ? 'nicht' : PARTS.concat([{ id: 'nein', name: '' }]).filter(function (p) { return p.id === st.pick; })[0].name) + ', weil ...">' + (st.why || '') + '</textarea></div>';
+        h += '<div class="gstep"><h3><i>3</i>Warum? Schreibt einen Satz.</h3><textarea class="keep" id="gWhy" placeholder="Wir wählen ' + (st.pick === 'nein' ? 'nicht' : PARTS.concat([{ id: 'nein', name: '' }]).filter(function (p) { return p.id === st.pick; })[0].name) + ', weil ...">' + esc(st.why || '') + '</textarea></div>';
         h += '<div class="gdone show">Geschafft. Merkt euch eure Wahl, gleich wird gezählt. Und überlegt: Welche Zeile auf dem Flugblatt hat euch am meisten angesprochen?</div>';
       }
       h += '<div style="text-align:center;margin-top:12px"><button class="btn ghost" id="gNew" type="button">Neue Karte ziehen</button></div>';
@@ -710,6 +712,7 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
       .then(function (r) { clearTimeout(to); return r.json().then(function (j) { return { status: r.status, j: j }; }); });
   }
   var live = { room: store('troom'), key: store('tkey') };
+  if (live.room && !/^[0-9]{6}$/.test(live.room)) live = { room: null, key: null };
   var liveBtn = document.getElementById('liveStart'), liveCode = document.getElementById('liveCode'), liveDigits = document.getElementById('liveDigits'), liveMsg = document.getElementById('liveMsg');
   function showCode() { if (live.room) { liveDigits.textContent = live.room; liveCode.classList.add('show'); liveBtn.textContent = 'Neue Live-Wahl'; } }
   showCode();
@@ -717,7 +720,7 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
     liveBtn.disabled = true; liveMsg.textContent = 'Verbinde ...';
     var key = rnd(24), tries = 0;
     (function attempt() {
-      var code = String(Math.floor(1000 + Math.random() * 9000));
+      var code = (function () { var a = new Uint8Array(6), c = ''; (window.crypto || window.msCrypto).getRandomValues(a); for (var q = 0; q < 6; q++) c += String(a[q] % 10); return c; })();
       call(code + '/open', 'POST', { key: key }).then(function (r) {
         if (r.status === 200) { live = { room: code, key: key }; store('troom', code); store('tkey', key); showCode(); liveMsg.textContent = 'Läuft. Die Schüler tippen diesen Code in ihrem iPad ein.'; liveBtn.disabled = false; }
         else if (r.status === 409 && tries++ < 6) attempt();
@@ -733,7 +736,7 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
   function stat(t, c) { codeSt.textContent = t; codeSt.className = 'st' + (c ? ' ' + c : ''); }
   function checkCode() {
     var c = codeIn.value.trim();
-    if (!/^[0-9]{4}$/.test(c)) { myCode = ''; store('code', ''); if (c) stat('Der Code hat vier Zahlen.', 'bad'); else stat('Ohne Code zählt eure Wahl nur per Handzeichen.'); return; }
+    if (!/^[0-9]{6}$/.test(c)) { myCode = ''; store('code', ''); if (c) stat('Der Code hat sechs Zahlen.', 'bad'); else stat('Ohne Code zählt eure Wahl nur per Handzeichen.'); return; }
     stat('Prüfe ...');
     call(c + '/state', 'GET').then(function (r) {
       if (r.status === 200) { myCode = c; store('code', c); stat('Verbunden mit der Klasse ' + c + '. Eure Wahl zählt vorne mit.', 'ok'); }
@@ -741,7 +744,7 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
     }).catch(function () { myCode = ''; stat('Kein Netz. Sagt eure Wahl bitte per Handzeichen.', 'bad'); });
   }
   codeIn.value = myCode; if (myCode) checkCode();
-  codeIn.addEventListener('input', function () { codeIn.value = codeIn.value.replace(/[^0-9]/g, ''); if (codeIn.value.length === 4 || codeIn.value.length === 0) checkCode(); });
+  codeIn.addEventListener('input', function () { codeIn.value = codeIn.value.replace(/[^0-9]/g, ''); if (codeIn.value.length === 6 || codeIn.value.length === 0) checkCode(); });
   window.__sendVote = function (fig, party, mood) {
     if (!myCode) return;
     var body = { dev: myDev, f: fig, p: party === 'nein' ? 'nein' : party, m: mood && mood.every(function (x) { return x > 0; }) ? mood : null };
@@ -775,7 +778,7 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
       if (!live.room) return;
       call(live.room + '/state', 'GET').then(function (r) {
         if (r.status === 404 && live.key) { call(live.room + '/open', 'POST', { key: live.key }); return; }
-        if (r.status !== 200) return;
+        if (r.status !== 200) { offline(); return; }
         if (liveOff) return;
         var j = r.j, num = function (v) { v = Number(v); return isFinite(v) && v >= 0 ? v : 0; };
         isLive = true;
@@ -784,14 +787,15 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
         while (infoEl.firstChild) infoEl.removeChild(infoEl.firstChild);
         var line = document.createElement('div');
         var dot = document.createElement('span'); dot.className = 'dot'; line.appendChild(dot);
-        var txt = 'Live, Klasse ' + (/^[0-9]{4}$/.test(live.room) ? live.room : '') + ': ' + n + (n === 1 ? ' Stimme' : ' Stimmen');
+        var txt = 'Live, Klasse ' + (/^[0-9]{6}$/.test(live.room) ? live.room : '') + ': ' + n + (n === 1 ? ' Stimme' : ' Stimmen');
         if (Array.isArray(j.mood) && j.mood.length === 3) txt += ' · Stimmung im Schnitt (1 gut, 5 verzweifelt): 1928 ' + fmt1(j.mood[0]) + ', 1930 ' + fmt1(j.mood[1]) + ', 1932 ' + fmt1(j.mood[2]);
         line.appendChild(document.createTextNode(txt)); infoEl.appendChild(line);
         var rec = (Array.isArray(j.recent) ? j.recent : []).filter(function (x) { return x && Object.prototype.hasOwnProperty.call(FN, x.f) && Object.prototype.hasOwnProperty.call(PN, x.p); }).map(function (x) { return FN[x.f] + ' ' + PN[x.p]; });
         if (rec.length) { var tk = document.createElement('div'); tk.className = 'tk'; tk.textContent = 'Zuletzt: ' + rec.join(' · '); infoEl.appendChild(tk); }
-        infoEl.classList.add('show'); draw();
-      }).catch(function () {});
+        infoEl.style.background = ''; infoEl.style.borderColor = ''; infoEl.classList.add('show'); draw();
+      }).catch(offline);
     }
+    function offline() { if (liveOff) return; infoEl.classList.add('show'); infoEl.style.background = '#fff3ef'; infoEl.style.borderColor = 'var(--kor)'; var m = infoEl.querySelector('.offl'); if (!m) { m = document.createElement('div'); m.className = 'offl'; infoEl.insertBefore(m, infoEl.firstChild); } m.textContent = 'Verbindung unterbrochen. Die Zahlen sind nicht aktuell. Zählt notfalls per Handzeichen (Knopf: Live aus).'; }
     window.__onSlide = function (i) { clearInterval(pollIv); pollIv = null; if (i === 5 && live.room) { poll(); pollIv = setInterval(poll, 3000); } };
     document.getElementById('tLive').addEventListener('click', function () {
       liveOff = !liveOff; this.textContent = liveOff ? 'Live wieder an' : 'Live aus, Handzeichen';
