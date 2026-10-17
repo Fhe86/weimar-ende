@@ -389,7 +389,7 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
         <p class="gfoot" style="margin-top:6px">Echt: Anteile der gültigen Stimmen (DNVP 5,9 und übrige 5,3 mit dabei). Wahlbeteiligung 84,1 %, also blieben gut 15 % zu Hause. Unsere Klasse ist nicht Deutschland: acht ausgesuchte Figuren sind keine Stichprobe. Quelle: bpb, Wikipedia (Endergebnis).</p>
       </div>
     </div>
-    <div class="tbar notprint"><button class="btn ghost" type="button" id="tReset">Strichliste zurücksetzen</button></div>
+    <div class="tbar notprint"><button class="btn ghost" type="button" id="tReset">Strichliste zurücksetzen</button><button class="btn ghost" type="button" id="tLive">Live aus, Handzeichen</button></div>
     <p class="note"><b>Wer ist umgekippt? Wer nicht?</b> Schaut auf die Stimmungskurven eurer Figuren.</p>
   </section>
 
@@ -752,7 +752,7 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
   (function () {
     var OPT = [{ id: 'spd', n: 'SPD' }, { id: 'kpd', n: 'KPD' }, { id: 'zen', n: 'Zentrum' }, { id: 'nsdap', n: 'NSDAP' }, { id: 'nein', n: 'Nichtwähler' }];
     var REAL = [{ n: 'NSDAP', v: 37.3 }, { n: 'SPD', v: 21.6 }, { n: 'KPD', v: 14.3 }, { n: 'Zentrum, BVP', v: 15.6 }, { n: 'DNVP', v: 5.9 }, { n: 'übrige', v: 5.3 }];
-    var cnt = { spd: 0, kpd: 0, zen: 0, nsdap: 0, nein: 0 }, isLive = false, pollIv = null;
+    var cnt = { spd: 0, kpd: 0, zen: 0, nsdap: 0, nein: 0 }, isLive = false, liveOff = false, pollIv = null;
     var FN = { krause: 'Karl', schmidt: 'Willi', meier: 'Maria', berger: 'Frieda', jansen: 'Hinrich', lange: 'Gustav', neumann: 'Erika', brandt: 'Paul' }, PN = { zen: 'Zentrum', nsdap: 'NSDAP', spd: 'SPD', kpd: 'KPD', nein: 'Nichtwähler' };
     var infoEl = document.getElementById('liveInfo');
     var rowsEl = document.getElementById('tallyRows'), clsEl = document.getElementById('clsBars'), realEl = document.getElementById('realBars');
@@ -776,15 +776,27 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
       call(live.room + '/state', 'GET').then(function (r) {
         if (r.status === 404 && live.key) { call(live.room + '/open', 'POST', { key: live.key }); return; }
         if (r.status !== 200) return;
-        var j = r.j; isLive = true;
-        for (var k in cnt) cnt[k] = j.byParty[k] || 0;
-        var h = '<span class="dot"></span>Live, Klasse ' + live.room + ': ' + j.n + (j.n === 1 ? ' Stimme' : ' Stimmen');
-        if (j.mood) h += ' · Stimmung im Schnitt (1 gut, 5 verzweifelt): 1928 ' + String(j.mood[0]).replace('.', ',') + ', 1930 ' + String(j.mood[1]).replace('.', ',') + ', 1932 ' + String(j.mood[2]).replace('.', ',');
-        if (j.recent && j.recent.length) h += '<div class="tk">Zuletzt: ' + j.recent.map(function (x) { return (FN[x.f] || x.f) + ' ' + (PN[x.p] || x.p); }).join(' · ') + '</div>';
-        infoEl.innerHTML = h; infoEl.classList.add('show'); draw();
+        if (liveOff) return;
+        var j = r.j, num = function (v) { v = Number(v); return isFinite(v) && v >= 0 ? v : 0; };
+        isLive = true;
+        for (var k in cnt) cnt[k] = num(j.byParty && j.byParty[k]);
+        var n = num(j.n), fmt1 = function (v) { return String(Math.round(num(v) * 10) / 10).replace('.', ','); };
+        while (infoEl.firstChild) infoEl.removeChild(infoEl.firstChild);
+        var line = document.createElement('div');
+        var dot = document.createElement('span'); dot.className = 'dot'; line.appendChild(dot);
+        var txt = 'Live, Klasse ' + (/^[0-9]{4}$/.test(live.room) ? live.room : '') + ': ' + n + (n === 1 ? ' Stimme' : ' Stimmen');
+        if (Array.isArray(j.mood) && j.mood.length === 3) txt += ' · Stimmung im Schnitt (1 gut, 5 verzweifelt): 1928 ' + fmt1(j.mood[0]) + ', 1930 ' + fmt1(j.mood[1]) + ', 1932 ' + fmt1(j.mood[2]);
+        line.appendChild(document.createTextNode(txt)); infoEl.appendChild(line);
+        var rec = (Array.isArray(j.recent) ? j.recent : []).filter(function (x) { return x && Object.prototype.hasOwnProperty.call(FN, x.f) && Object.prototype.hasOwnProperty.call(PN, x.p); }).map(function (x) { return FN[x.f] + ' ' + PN[x.p]; });
+        if (rec.length) { var tk = document.createElement('div'); tk.className = 'tk'; tk.textContent = 'Zuletzt: ' + rec.join(' · '); infoEl.appendChild(tk); }
+        infoEl.classList.add('show'); draw();
       }).catch(function () {});
     }
     window.__onSlide = function (i) { clearInterval(pollIv); pollIv = null; if (i === 5 && live.room) { poll(); pollIv = setInterval(poll, 3000); } };
+    document.getElementById('tLive').addEventListener('click', function () {
+      liveOff = !liveOff; this.textContent = liveOff ? 'Live wieder an' : 'Live aus, Handzeichen';
+      if (liveOff) { isLive = false; infoEl.classList.remove('show'); for (var k in cnt) cnt[k] = 0; draw(); } else poll();
+    });
     document.getElementById('tReset').addEventListener('click', function () {
       for (var k in cnt) cnt[k] = 0;
       if (live.room && live.key) call(live.room + '/reset', 'POST', { key: live.key }).then(poll).catch(function () {});
