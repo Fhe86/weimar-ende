@@ -635,10 +635,11 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
   </section>
 
   <!-- 10 Mein Lernpass -->
-  <section class="slide nores scroll passslide" id="passSlide" data-phase="3 Abschluss" data-min="3" data-mat="ab,abl" data-need="Zweiter Tipp, Mitnehm-Satz, Ampel. Dann PDF sichern und in OneNote einfügen." data-notes="Mein Lernpass (Abschluss). Jeder gibt seinen zweiten Tipp ab, schreibt den Mitnehm-Satz und stellt die Ampel. Dann Als PDF sichern: Am iPad erscheint die Druckansicht, dort Teilen, OneNote oder In Dateien sichern. Die OneNote-Seite (Arbeitsblatt-PDF) mit Dreierspalte liegt zusätzlich in der Leiste.">
+  <section class="slide nores scroll passslide" id="passSlide" data-phase="3 Abschluss" data-min="3" data-mat="ab,abl" data-need="Zweiter Tipp, Mitnehm-Satz, Ampel. Dann PDF sichern, Name: M6: Das Ende der Weimarer Republik (Lernübersicht)." data-notes="Mein Lernpass (Abschluss). Das PDF soll im Heft als M6: Das Ende der Weimarer Republik (Lernübersicht) liegen: Der Dateiname steht schon im Druckdialog, sonst den Namen-kopieren-Knopf nutzen. Jeder gibt seinen zweiten Tipp ab, schreibt den Mitnehm-Satz und stellt die Ampel. Dann Als PDF sichern: Am iPad erscheint die Druckansicht, dort Teilen, OneNote oder In Dateien sichern. Die OneNote-Seite (Arbeitsblatt-PDF) mit Dreierspalte liegt zusätzlich in der Leiste.">
     <div class="pass">
-      <div class="stnhead"><button class="back noprintpass" type="button" data-go="5">‹ Lernpass</button><h2>Mein Lernpass: Das habe ich heute erarbeitet</h2></div>
+      <div class="stnhead"><button class="back noprintpass" type="button" data-go="5">‹ Lernpass</button><h2>M6: Das Ende der Weimarer Republik (Lernübersicht)</h2></div>
       <div class="passnote" id="passWho"></div>
+      <div class="passnote">Mein Lernpass: Das habe ich heute erarbeitet.</div>
       <div class="kv">
         <div class="box"><h3 style="margin-top:0">Station 1: Meine Reihenfolge</h3><ol id="pass1"></ol></div>
         <div class="box"><h3 style="margin-top:0">Station 2: Mein Schuldkuchen</h3><div id="pass2"></div></div>
@@ -659,6 +660,7 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
       <h3>Prüfe dich selbst: Du kannst ... (tippe auf den Kreis: grün, gelb, rot)</h3>
       <div id="ampeln"></div>
       <div class="tbar noprintpass" style="margin-top:12px"><button class="btn" type="button" id="passPdf">Als PDF sichern</button></div>
+      <div class="passnote noprintpass" style="font-weight:700;color:var(--text)">Dateiname beim Speichern: <span id="passName">M6: Das Ende der Weimarer Republik (Lernübersicht)</span> <button class="btn ghost" type="button" id="passNameCopy" style="padding:6px 12px;min-height:40px;font-size:12px">Namen kopieren</button></div>
       <div class="passnote noprintpass">Am iPad: Es öffnet sich die Druckansicht. Mit zwei Fingern auf die Vorschau auseinanderziehen, dann Teilen und OneNote wählen.</div>
     </div>
   </section>
@@ -1120,9 +1122,11 @@ textarea.keep, .atask textarea { width: 100%; margin-top: 10px; min-height: 96px
     el('passWho').textContent = 'Geschichts-Detektive der Klasse 8 · Datum: ' + new Date().toLocaleDateString('de-DE');
     el('mitSatz').value = S.mit; paintTips(); paintAmpel();
   }
+  var PASSNAME = 'M6: Das Ende der Weimarer Republik (Lernübersicht)', TITLE0 = document.title;
+  el('passNameCopy').addEventListener('click', function () { copyText(PASSNAME, this, 'Kopiert'); });
   el('passPdf').addEventListener('click', function () {
-    document.body.classList.add('printpass');
-    var after = function () { document.body.classList.remove('printpass'); window.removeEventListener('afterprint', after); };
+    document.body.classList.add('printpass'); document.title = PASSNAME;
+    var after = function () { document.body.classList.remove('printpass'); document.title = TITLE0; window.removeEventListener('afterprint', after); };
     window.addEventListener('afterprint', after);
     setTimeout(function () { window.print(); setTimeout(after, 1500); }, 100);
   });
